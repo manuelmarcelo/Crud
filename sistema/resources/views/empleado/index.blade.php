@@ -1,4 +1,7 @@
 Mostrar la lista de empleados
+@if(Session::has('mensaje'))
+{{Session::get('mensaje')}}
+@endif
 <a href="{{url('empleado/create')}}"> Registrar nuevo empleado</a>
 <table class="table table-light">
   <thead class="thead-light">
@@ -12,7 +15,7 @@ Mostrar la lista de empleados
     </tr>
   </thead>
   <tbody>
-    @foreach($empleados as $empleado)
+    @foreach ($empleados as $empleado)
     <tr>
       <td>{{ $empleado->id }} </td>
       <td>{{ $empleado->Nombre }} </td>
@@ -20,19 +23,17 @@ Mostrar la lista de empleados
       <td>{{ $empleado->ApellidoPaterno }} </td>
       <td>{{ $empleado->Correo }} </td>
       <td>
-      <a href ="{{url('/empleado/'.$empleado->id.'/edit')}}">
-      Editar
-    </a>  
-    | 
-         <form action="{{url('/empleado/'.$empleado->id)}}" mothod="post">
-        @csrf
-        {{method_field('DELETE')}}
-      <input type="submit" onclick="return confirm ('¿Quieres borrar?')" 
-      value="Borrar">  
-      </form>
+        <a href="{{url('/empleado/'.$empleado->id.'/edit')}}">
+          Editar|
+        </a>
+               <form mothod="post" action="{{url('/empleado/'.$empleado->id)}}" >
+          {{@csrf_field() }}
+          {{method_field('DELETE')}}
+          <!-- <input type="submit" onclick="return confirm ('¿Quieres borrar?')" value="Borrar"> -->
+<button type="submit" onclick="return confirm('¿Borrar?')">Borrar</button>        </form>
 
       </td>
-       </tr>
+    </tr>
     @endforeach
   </tbody>
 </table>
